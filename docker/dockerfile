@@ -1,0 +1,13 @@
+FROM bitnami/python
+
+USER root
+
+WORKDIR /main/
+
+COPY ./requirements.txt .
+
+RUN pip install -r requirements.txt
+
+COPY ./count_seconds.py /main/
+
+CMD ["python", "-u", "count_seconds.py"]
