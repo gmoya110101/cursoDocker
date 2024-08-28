@@ -1,0 +1,10 @@
+name,age
+Gerardo,23
+Rafael,24
+Lu,23
+Naomi,23
+Mike,42
+Cristian,60
+Erick,80
+Carlos, 17
+Hector,40
