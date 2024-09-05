@@ -28,36 +28,86 @@ services:
     #ESTOY USANDO LOS VOLUMES PROPIOS DE DOCKER
     volumes:
       - postgres_data:/var/lib/postgresql/data
-
-  pgadmin:
-    image: dpage/pgadmin4:latest
-    container_name: pgadmin
-    ports:
-      - "8081:80"  
-    environment:
-      PGADMIN_DEFAULT_EMAIL: admin@kafka.com
-      PGADMIN_DEFAULT_PASSWORD: admin01
-    networks:
-        - pg_network
-  mssql:
-    container_name: mssql
-    hostname: mssql
-    image: mcr.microsoft.com/mssql/server:2022-latest
-    environment:
-      ACCEPT_EULA: 'Y'
-      MSSQL_SA_PASSWORD: 'kafka@123'
-      MSSQL_DATA_DIR: /var/opt/mssql/data
-      MSSQL_PID: 'Developer' 
-      MSSQL_TCP_PORT: 1433 
-    ports: 
-      - "1455:1433"
+  jupyter:
+    container_name: jupyter
+    user: root
+    image: jupyter-spark:1.0 # jupyter/all-spark-notebook:latest
+    restart: always
     volumes:
-    #ESTOY USANDO BINDMOUNTS
-      - ./data:/var/opt/mssql/data
-      - ./log:/var/opt/mssql/log
-      - ./secrets:/var/opt/mssql/secrets
+      - ./notebooks:/home/jupyternb/gmoya #My notebooks
+      - ~/.jupyter:/home/jovyan/.jupyter #Configurations
+
+    environment:
+      - JUPYTER_TOKEN=my_token
+      - NB_USER=jupyternb
+      - NB_UID=1000
+      - NB_GID=100
+      - CHOWN_HOME=yes
+    working_dir: /home/jupyternb/gmoya
+    ports:
+      - '8888:8888'
     networks:
-      - nifi_network
+      - pg_network
+
+
+  # jupyter:
+  #   container_name: jupyter
+  #   user: root
+  #   image: quay.io/jupyter/datascience-notebook:latest
+  #   restart: always
+  #   volumes:
+  #     - ./notebooks:/home/jupyternb/gmoya
+  #   environment:
+  #     - JUPYTER_TOKEN=my_token
+  #     - NB_USER=jupyternb
+  #     - NB_UID=1000
+  #     - NB_GID=100
+  #     - CHOWN_HOME=yes
+  #   working_dir: /home/jupyternb/gmoya
+  #   ports:
+  #     - '8888:8888'
+
+  # spark:
+  #   image: bitnami/spark:latest
+  #   container_name: spark
+  #   ports:
+  #     - "4040:4040"
+  #   environment:
+  #     - SPARK_MODE=worker
+  #     - SPARK_MASTER_URL=spark://spark:7077
+  #   depends_on:
+  #     - jupyter
+
+  # pgadmin:
+  #   image: dpage/pgadmin4:latest
+  #   container_name: pgadmin
+  #   ports:
+  #     - "8081:80"  
+  #   environment:
+  #     PGADMIN_DEFAULT_EMAIL: admin@kafka.com
+  #     PGADMIN_DEFAULT_PASSWORD: admin01
+  #   networks:
+  #       - pg_network
+
+  # mssql:
+  #   container_name: mssql
+  #   hostname: mssql
+  #   image: mcr.microsoft.com/mssql/server:2022-latest
+  #   environment:
+  #     ACCEPT_EULA: 'Y'
+  #     MSSQL_SA_PASSWORD: 'kafka@123'
+  #     MSSQL_DATA_DIR: /var/opt/mssql/data
+  #     MSSQL_PID: 'Developer' 
+  #     MSSQL_TCP_PORT: 1433 
+  #   ports: 
+  #     - "1455:1433"
+  #   volumes:
+  #   #ESTOY USANDO BINDMOUNTS
+  #     - ./data:/var/opt/mssql/data
+  #     - ./log:/var/opt/mssql/log
+  #     - ./secrets:/var/opt/mssql/secrets
+  #   networks:
+  #     - nifi_network
 
 networks:
   nifi_network:

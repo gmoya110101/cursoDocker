@@ -1,0 +1,11 @@
+FROM jupyter/all-spark-notebook:latest
+
+USER root
+
+RUN mkdir ./libraries
+
+COPY requirements.txt ./libraries
+
+RUN pip install --no-cache-dir -r ./libraries/requirements.txt
+
+CMD ["start-notebook.sh"]

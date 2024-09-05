@@ -1,0 +1,16 @@
+services:
+  web:
+    image: nginx
+    ports:
+      - "80:80"
+  db:
+    image: postgres
+    environment:
+      POSTGRES_PASSWORD: example
+  python:
+    image: mi_primer_image:1.0.1
+    container_name: otra
+    ports:
+      - "56:98"
+
+
