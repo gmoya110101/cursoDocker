@@ -31,7 +31,7 @@ services:
   jupyter:
     container_name: jupyter
     user: root
-    image: jupyter-spark:1.0 # jupyter/all-spark-notebook:latest
+    image: gmoya110101/jupyter-spark:1.0 
     restart: always
     volumes:
       - ./notebooks:/home/jupyternb/gmoya #My notebooks
