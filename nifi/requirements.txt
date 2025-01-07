@@ -2,3 +2,17 @@ findspark
 fastavro
 numpy
 pandas
+adlfs==2022.2.0
+apache-airflow==2.5
+azure-core==1.29.3
+azure-identity==1.14.0
+azure-keyvault
+azure-storage-blob==12.15.0
+azure-storage-file-datalake
+dask
+elasticsearch==7.13
+fastparquet
+jmespath==1.0.1
+kafka-python==2.0.2
+pandas==1.3.5
+pyarrow

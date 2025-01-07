@@ -1,1 +1,4 @@
 nifi/notebooks/
+nifi/data
+nifi/log
+nifi/secrets
